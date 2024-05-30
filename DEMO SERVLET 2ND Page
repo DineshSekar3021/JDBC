@@ -1,0 +1,20 @@
+package com.test;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class MultiplyServlet extends HttpServlet {
+	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException {
+		int value=(int)req.getAttribute("first");
+		int value1=(int)req.getAttribute("sec");
+		
+		int mul=value*value1;
+		PrintWriter pqr=res.getWriter();
+		pqr.print("Multiplication is: "+mul);
+	}
+
+}
