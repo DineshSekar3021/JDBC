@@ -1,0 +1,28 @@
+package jdbc1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class Insert {
+	Scanner scan =new Scanner(System.in);
+	String a=scan.next();
+	static String b="insert into paapa values('kii')";
+	  
+		public static void main(String args[]){  
+		try{  
+		Class.forName("com.mysql.jdbc.Driver");  
+		Connection con=DriverManager.getConnection(  
+		"jdbc:mysql://localhost:3306/dinesh","root","Dinesh@12");  
+		//here sonoo is database name, root is username and password  
+		Statement stmt=con.createStatement();  
+		stmt.executeUpdate(b);
+		System.out.print("Succesfully inserted");
+		//while (rs.next()) {
+		//String name=rs.getString("name");
+		//System.out.println(name);} 
+		//con.close(); 
+		}catch(Exception e){ System.out.println(e);}  
+		}  }
+
