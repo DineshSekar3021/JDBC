@@ -1,0 +1,53 @@
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/InsertServlet")
+public class InsertServlet extends HttpServlet {
+    
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("StudentName");
+        String dob = request.getParameter("DOB");
+        String phoneNumberStr = request.getParameter("PhoneNumber");
+
+        try {
+            // Parse phone number as an integer
+            int phoneNumber = Integer.parseInt(phoneNumberStr);
+
+            // JDBC Connection
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dinesh", "root", "Dinesh@12");
+
+            // SQL Query
+            String sql = "INSERT INTO student (studentname, dob, phonenumber) VALUES (?, ?, ?)";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, dob);
+            statement.setInt(3, phoneNumber);
+            statement.executeUpdate();
+
+            // Execute the query
+            int rowsInserted =1 ;
+            if (rowsInserted > 0) {
+                response.getWriter().println("Student record inserted successfully.");
+            } else {
+                response.getWriter().println("Failed to insert student record.");
+            }
+
+            // Close the connection
+            conn.close();
+        } catch (ClassNotFoundException | SQLException | NumberFormatException e) {
+            e.printStackTrace();
+            response.getWriter().println("Error: " + e.getMessage());
+        }
+    }
+}
